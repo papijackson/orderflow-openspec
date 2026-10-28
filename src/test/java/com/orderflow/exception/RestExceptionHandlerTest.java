@@ -48,4 +48,37 @@ class RestExceptionHandlerTest {
                 .contains("\"status\":500", "An unexpected error occurred.")
                 .doesNotContain("fixture-secret", "SELECT", "IllegalStateException");
     }
+
+    @Test
+    void shouldReturnProblemDetailsForMissingOrder() throws Exception {
+        var response = mockMvc.perform(get("/_test/not-found"))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(404);
+        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
+        assertThat(response.getContentAsString())
+                .contains(
+                        "\"type\":\"about:blank\"",
+                        "\"title\":\"Not Found\"",
+                        "\"status\":404",
+                        "\"detail\":\"Order was not found.\"")
+                .doesNotContain("00000000-0000-0000-0000-000000000001");
+    }
+
+    @Test
+    void shouldReturnProblemDetailsForIdempotencyConflict() throws Exception {
+        var response = mockMvc.perform(get("/_test/conflict"))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(409);
+        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
+        assertThat(response.getContentAsString())
+                .contains(
+                        "\"type\":\"about:blank\"",
+                        "\"title\":\"Conflict\"",
+                        "\"status\":409",
+                        "\"detail\":\"Idempotency key conflicts with an existing order.\"");
+    }
 }
