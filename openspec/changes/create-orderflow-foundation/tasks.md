@@ -18,7 +18,7 @@
 
 ## 4. Continuous integration and integrated verification
 
-- [ ] 4.1 Add a GitHub Actions workflow for pull requests and pushes that configures Java 21, uses the Maven Wrapper, runs `./mvnw -B verify`, and contains no deployment steps or secrets; verify the workflow triggers and command, then confirm a successful CI run reports the required checks as passing. (Build validation: Pull requests and pushes receive build and test validation; Architecture rules are part of automated validation; Build validation does not deploy the application)
+- [x] 4.1 Add a GitHub Actions workflow for pull requests and pushes that configures Java 21, uses the Maven Wrapper, runs `./mvnw -B verify`, and contains no deployment steps or secrets; verify the workflow triggers and command, then confirm a successful CI run reports the required checks as passing. (Build validation: Pull requests and pushes receive build and test validation; Architecture rules are part of automated validation; Build validation does not deploy the application)
 - [x] 4.2 Run `./mvnw -B verify` across the complete implementation and record its code/test result separately from the GitHub Actions run; resolve any failures without weakening the requirements. (Build validation: Pull requests and pushes receive build and test validation)
 
 ## Workflow follow-up
